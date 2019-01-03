@@ -17,22 +17,31 @@ function saveJsonData(pathToFile, data) {
     fs.writeFileSync(path.join(__dirname, pathToFile), JSON.stringify(data, null, "    "));
 }
 
-module.exports = function SkipCharacterSelect(dispatch) {	
-
+module.exports = function TerableLogin(dispatch) {	
+	const command = dispatch.command || dispatch.require.command;
+	
+	command.add(['teral', 'tlogin', 'teralogin', 'terablelogin'], {
+		$default() {
+    		saveJsonData(settingsPath, );
+        	command.message(`TerableLogin cleared. The next char you login will be set as the default login.`);
+    	}
+	});
+	
     /*
         Let character select screen and client account settings to finish loading. May need to be adjusted for your CPU.
         No delay works but sometimes the "wind sound effect" from the "warping loading screen" will continue to play afterwards if you switch servers.
     */
     const delay = 8000; 
-
-    let settingsPath;
-    enabled = true;
-            
+	
+    let settingsPath,
+    enabled = true,
+	data;
+	
     dispatch.hook('S_LOGIN_ACCOUNT_INFO', 1, (event) => {
         settingsPath = `./data/${event.serverName}.json`;
         if (!enabled) return;
         
-        let data = getJsonData(settingsPath);
+        data = getJsonData(settingsPath);
         if (data) {
             setTimeout(()=>{
                 dispatch.toServer('C_SELECT_USER', 1, Object.assign({}, data));
@@ -42,7 +51,8 @@ module.exports = function SkipCharacterSelect(dispatch) {
     });
     
     dispatch.hook('C_SELECT_USER', 1, (event) => {
-        saveJsonData(settingsPath, Object.assign({}, event));
+		data = getJsonData(settingsPath);
+		if(!data) saveJsonData(settingsPath, Object.assign({}, event));
     });
     
 }
