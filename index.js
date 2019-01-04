@@ -30,8 +30,10 @@ module.exports = function TerableLogin(dispatch) {
     /*
         Let character select screen and client account settings to finish loading. May need to be adjusted for your CPU.
         No delay works but sometimes the "wind sound effect" from the "warping loading screen" will continue to play afterwards if you switch servers.
+		If you set the delay too low your UI gets messed up.
     */
-    const delay = 8000; 
+    //const delay = 8000; 
+    const delay = 4000; // I play with ingame sounds off
 	
     let settingsPath,
     enabled = true,
