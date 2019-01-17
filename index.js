@@ -20,7 +20,7 @@ function saveJsonData(pathToFile, data) {
 module.exports = function TerableLogin(dispatch) {	
 	const command = dispatch.command || dispatch.require.command;
 	
-	command.add(['teral', 'tlogin', 'teralogin', 'terablelogin'], {
+	command.add(['tlogin', 'teralogin', 'terablelogin'], {
 		$default() {
     		saveJsonData(settingsPath, );
         	command.message(`TerableLogin cleared. The next char you login will be set as the default login.`);
